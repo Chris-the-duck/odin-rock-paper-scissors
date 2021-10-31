@@ -30,7 +30,7 @@ function getPlayerChoice() {
     let playerChoice = prompt("Please choose rock, paper, or scissors.");
     // for extra credit I'm gonna check for garbage input here because first thing I would do
     // is enter a curse word and see what happens
-    if (choices.indexOf(playerChoice) < 0) {
+    if (choices.indexOf(playerChoice.toLowerCase()) < 0) {
         getPlayerChoice();
         // yay for recursion so I don't need to figure out while loops in this ahead of time
     }
