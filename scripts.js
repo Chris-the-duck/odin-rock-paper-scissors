@@ -13,18 +13,7 @@ function computerPlay() {
     let index = getRndInteger(1, 3) - 1;
     return choices[index];
 }
-
 /*
-Yep, console log test says that works
-Rock Paper Scissors function
-Needs to:
-1) Say hi and prompt player for their choice
-2) Get computer's choice
-3) Evaluate which choice wins
-4) Spit out an appropriate message to say who wins
-Preeeeeetty sure these are all supposed to be separate helper functions
-*/
-
 function getPlayerChoice() {
     console.log("Let's play a game of rock, paper, scissors!");
     let playerChoice = prompt("Please choose rock, paper, or scissors.");
@@ -38,6 +27,13 @@ function getPlayerChoice() {
     return(playerChoice.toLowerCase());
     }
 }
+*/
+const buttons = document.querySelectorAll('button');
+buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        playRPS(button.className);
+    });
+});
 
 function getWinner(choiceA, choiceB) {
     if (choiceA === choiceB) {
@@ -72,8 +68,8 @@ function declareWinner(playerChoice, computerChoice) {
     }
 }
 
-function playRPS() {
-    let playerChoice = getPlayerChoice();
+function playRPS(buttonInput) {
+    let playerChoice = buttonInput;
     let computerChoice = computerPlay();
     return declareWinner(playerChoice, computerChoice);
 }
@@ -91,7 +87,6 @@ Derr, also have to return declareWinner in the above function or none of this wo
 function game() {
     let playerScore = 0;
     let computerScore = 0;
-    for (let i = 0; i < 5; i++) {
         let round = playRPS();
         if (round === "player") {
             playerScore += 1;
@@ -99,7 +94,7 @@ function game() {
         else if (round === "computer") {
             computerScore +=1;
         }
-    }
+    
     if (playerScore > computerScore) {
         console.log(`You win ${playerScore}:${computerScore} vs the computer.`)
     }
@@ -112,7 +107,3 @@ function game() {
     }
 }
 
-game()
-
-/* I would normally clean out some of these comments, but in the interest of showing my
-work, I'll leave them there */
