@@ -20,15 +20,25 @@ const buttons = document.querySelectorAll('button');
 buttons.forEach(button => {
     button.addEventListener('click', () => {
         playRPS(button.className);
+        button.id = 'clicked'; // shamelessly nicking that border transform from the Wes Bos thing, but can't use class name
     });
 });
+buttons.forEach(button => button.addEventListener('transitionend', removeTransition));
+// WIP - this does not work yet
 
 const resultText = document.querySelector('.result');
 const scoreText = document.querySelector('.score');
 
+const rockPic = '<img src="images/rock.jpg" alt="Rock">';
+const paperPic = '<img src="images/paper.jpg" alt="Paper">';
+const scissorPic = '<img src="images/scissors.jpg" alt="Scissors">';
+
 
 // functions
-// balls, I'm going to have to deconstruct game() and stuff it into the other functions now that there's no longer a loop
+function removeTransition(e) {
+    if(e.propertyName !== 'transform') return; //skip if not a transform
+    this.removeAttribute('clicked');
+}
 
 function getWinner(choiceA, choiceB) {
     if (choiceA === choiceB) {
@@ -66,6 +76,8 @@ function declareWinner(playerChoice, computerChoice) {
 function playRPS(buttonInput) {
     let playerChoice = buttonInput;
     let computerChoice = computerPlay();
+   /* computer.textContent = "Computer plays: ";
+    computer.innerHTML += (computerPlay == "rock") ? rockPic : (computerPlay == "scissors") ? scissorPic : paperPic; */
     let round = declareWinner(playerChoice, computerChoice);
     if (round === "player") {
         playerScore += 1;
