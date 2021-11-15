@@ -28,16 +28,17 @@ buttons.forEach(button => button.addEventListener('transitionend', removeTransit
 
 const resultText = document.querySelector('.result');
 const scoreText = document.querySelector('.score');
+const computer = document.querySelector('.computer');
 
-const rockPic = '<img src="images/rock.jpg" alt="Rock">';
-const paperPic = '<img src="images/paper.jpg" alt="Paper">';
-const scissorPic = '<img src="images/scissors.jpg" alt="Scissors">';
+const rockPic = "images/rock.jpg";
+const paperPic = "images/paper.jpg";
+const scissorPic = "images/scissors.jpg";
 
 
 // functions
 function removeTransition(e) {
     if(e.propertyName !== 'transform') return; //skip if not a transform
-    this.removeAttribute('clicked');
+    this.removeAttribute('id');
 }
 
 function getWinner(choiceA, choiceB) {
@@ -58,26 +59,34 @@ function getWinner(choiceA, choiceB) {
 function declareWinner(playerChoice, computerChoice) {
     let result = getWinner(playerChoice, computerChoice);
     if (!result) {
+        resultText.classList.remove('win', 'lose')
         resultText.textContent = "It's a draw!";
         return 0;
     }
     else if (result === playerChoice) {
+        resultText.classList.add('win');
+        resultText.classList.remove('lose');
         resultText.textContent = `You win - ${playerChoice} beats ${computerChoice}!`;
-        // can't have exclamation mark after 'You win' or lowercase variables become grammatically incorrect
-        // there is a method for converting to title case on StackOverflow but this seems much easier
         return "player";
     }
     else {
+        resultText.classList.add('lose');
+        resultText.classList.remove('win');
         resultText.textContent = `You lose - ${computerChoice} beats ${playerChoice}!`;
         return "computer";
     }
 }
 
+function changeImage(newImg) {
+    document.getElementById("compImg").src = newImg;
+}
+
 function playRPS(buttonInput) {
     let playerChoice = buttonInput;
     let computerChoice = computerPlay();
-   /* computer.textContent = "Computer plays: ";
-    computer.innerHTML += (computerPlay == "rock") ? rockPic : (computerPlay == "scissors") ? scissorPic : paperPic; */
+    computer.textContent = "Computer plays: ";
+    let newImg = (computerChoice == "rock") ? rockPic : (computerChoice == "scissors") ? scissorPic : paperPic;
+    changeImage(newImg);
     let round = declareWinner(playerChoice, computerChoice);
     if (round === "player") {
         playerScore += 1;
