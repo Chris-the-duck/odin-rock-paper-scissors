@@ -11,6 +11,16 @@ function computerPlay() {
     return choices[index];
 }
 
+function computerPlayUnfair(input) {
+    let counter = (input == "rock") ? "paper" : (input == "scissors") ? "rock" : "scissors";
+    let chance = getRndInteger(1, 10);
+    if (chance <= 8) {
+        return counter;
+    } else {
+        return computerPlay();
+    }
+}
+
 // Query selectors and variables
 
 let playerScore = 0;
@@ -24,7 +34,6 @@ buttons.forEach(button => {
     });
 });
 buttons.forEach(button => button.addEventListener('transitionend', removeTransition));
-// WIP - this does not work yet
 
 const resultText = document.querySelector('.result');
 const scoreText = document.querySelector('.score');
@@ -34,8 +43,10 @@ const rockPic = "images/rock.jpg";
 const paperPic = "images/paper.jpg";
 const scissorPic = "images/scissors.jpg";
 
+let playerPicks = [];
 
-// functions
+// Helper functions
+
 function removeTransition(e) {
     if(e.propertyName !== 'transform') return; //skip if not a transform
     this.removeAttribute('id');
@@ -81,9 +92,27 @@ function changeImage(newImg) {
     document.getElementById("compImg").src = newImg;
 }
 
+
+function antiCheese(playerChoice) { 
+    playerPicks.push(playerChoice);
+    if (playerPicks.length > 0 && playerChoice != playerPicks[0]) {
+        playerPicks = [];
+    };
+    let cheeseLimit = getRndInteger(2, 6);
+    return (playerPicks.length >= cheeseLimit);
+}
+
+// Actual game function
+
 function playRPS(buttonInput) {
     let playerChoice = buttonInput;
-    let computerChoice = computerPlay();
+    let cheesing = antiCheese(playerChoice);
+    let computerChoice;
+    if (cheesing) {
+        computerChoice = computerPlayUnfair(playerPicks[0]);
+    } else {
+        computerChoice = computerPlay();
+    }
     computer.textContent = "Computer plays: ";
     let newImg = (computerChoice == "rock") ? rockPic : (computerChoice == "scissors") ? scissorPic : paperPic;
     changeImage(newImg);

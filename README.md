@@ -13,3 +13,6 @@ was called by another function, game(), that contained the loop and did the scor
 Now the game got an overhaul to give it an actual GUI to play in the browser, which meant adding CSS/JS - and scrapping the
 game() function, and stuffing the bits that were still needed into playRPS(). Also thought it'd be nice to actually display
 the computer's choice rather than just telling the player "you lose".
+
+A friend I showed this to suggested I put something in to discourage players from simply clicking the same button over
+and over and taking their chances, so I did. 
